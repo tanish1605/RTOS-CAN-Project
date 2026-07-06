@@ -21,8 +21,9 @@ BUILD_DIR = build
 
 C_OBJECTS = \
     $(patsubst src/%.c,$(BUILD_DIR)/%.o,$(wildcard src/*.c)) \
-    $(patsubst drivers/%.c,$(BUILD_DIR)/%.o,$(wildcard drivers/*.c))
-	
+    $(patsubst drivers/%.c,$(BUILD_DIR)/%.o,$(wildcard drivers/*.c)) \
+	$(patsubst kernel/%.c,$(BUILD_DIR)/%.o,$(wildcard kernel/*.c))
+
 ASM_OBJECTS = $(patsubst arch/%.s,$(BUILD_DIR)/%.o,$(ASM_SOURCES))
 
 OBJECTS = $(C_OBJECTS) $(ASM_OBJECTS)
@@ -41,8 +42,13 @@ $(BUILD_DIR)/%.o: drivers/%.c
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(BUILD_DIR)/%.o: kernel/%.c
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS)
 	$(CC) $(CPU) $(OBJECTS) $(LDFLAGS) -o $@
 
 clean:
 	rm -rf build
+	
