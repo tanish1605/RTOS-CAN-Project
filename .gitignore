@@ -1,0 +1,20 @@
+# Build output
+build/
+
+# Object files
+*.o
+*.elf
+*.bin
+*.hex
+*.map
+
+# VSCode
+.vscode/
+
+# Temporary files
+*.swp
+*~
+
+# Python cache
+__pycache__/
+*.pyc
