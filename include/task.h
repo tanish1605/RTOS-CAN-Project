@@ -29,6 +29,8 @@ typedef struct
 extern TCB taskList[MAX_TASKS];
 extern uint32_t taskCount;
 
+extern TCB *currentTask;
+
 void task_create(void (*task)(void), uint8_t priority);
 
 #endif
