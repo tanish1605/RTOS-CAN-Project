@@ -16,7 +16,12 @@ void task_create(void (*task)(void), uint8_t priority)
     /* Hardware stack frame */
 
     *(--sp) = 0x01000000;      // xPSR
-    *(--sp) = (uint32_t)task;  // PC
+    #ifndef HOST_DEMO
+    *(--sp) = (uint32_t)task;
+    #else
+    *(--sp) = 0;
+    #endif
+    // *(--sp) = (uint32_t)task;  // PC
     *(--sp) = 0xFFFFFFFD;      // LR (Return to Thread mode using PSP)
 
     *(--sp) = 0;   // R12

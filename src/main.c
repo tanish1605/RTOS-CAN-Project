@@ -1,5 +1,6 @@
 #include "task.h"
 #include "scheduler.h"
+#include <stddef.h>
 
 volatile uint32_t telemetryCounter = 0;
 volatile uint32_t loggerCounter = 0;
@@ -22,11 +23,18 @@ void loggerTask(void)
 
 int main(void)
 {
+    uart_init();
+
     task_create(telemetryTask,2);
 
     task_create(loggerTask,1);
 
     scheduler_start();
+
+    if(currentTask)
+    {
+        currentTask->state = TASK_RUNNING;
+    }
 
     while(1)
     {

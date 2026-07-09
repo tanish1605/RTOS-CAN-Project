@@ -1,4 +1,5 @@
 #include "semaphore.h"
+#include <stddef.h>
 
 void semaphore_init(Semaphore *sem, int32_t initial_count)
 {

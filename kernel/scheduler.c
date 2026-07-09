@@ -1,4 +1,5 @@
 #include "scheduler.h"
+#include <stddef.h>
 
 TCB *currentTask = 0;
 
@@ -20,7 +21,18 @@ TCB *scheduler_get_next_task(void)
 
 void scheduler_schedule(void)
 {
-    currentTask = scheduler_get_next_task();
+    TCB *next = scheduler_get_next_task();
+
+    if(next == NULL)
+        return;
+
+    if(currentTask &&
+       currentTask->state == TASK_RUNNING)
+        currentTask->state = TASK_READY;
+
+    currentTask = next;
+
+    currentTask->state = TASK_RUNNING;
 }
 
 void scheduler_start(void)
